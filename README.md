@@ -18,8 +18,7 @@ One can learn following concepts of reactJs:
 - Passing Props
 
 # Demo
-This repository contains an original implementation of an AQI lookup and dataset analysis UI created by the repository owner. A sample dataset and local demo are provided — see the `site/example-aqi.csv` file and run the project locally following the instructions below.
-
+https://tejesh-45.github.io/aqi-analysis/
 ## Authorship
 This project was created and customized by the repository owner (Tejesh-45). The source code and assets in this repo are the owner's work, except where external libraries are explicitly declared in `package.json`.
 
