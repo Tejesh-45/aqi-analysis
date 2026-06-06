@@ -1,6 +1,7 @@
 {
   "name": "code",
   "version": "0.1.0",
+  "homepage": "https://Tejesh-45.github.io/aqi-analysis",
   "private": true,
   "dependencies": {
     "moment": "^2.24.0",
