@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Papa from 'papaparse';
+import DatasetChart from './DatasetChart';
 
 // Simple PM2.5 AQI category based on US EPA breakpoints
 function pm25Category(value) {
@@ -16,6 +17,7 @@ function pm25Category(value) {
 export default function UploadDataset() {
   const [summary, setSummary] = useState(null);
   const [error, setError] = useState('');
+  const [rows, setRows] = useState([]);
 
   const analyze = rows => {
     // Collect common pollutant columns if available
@@ -54,6 +56,7 @@ export default function UploadDataset() {
     },{});
 
     setSummary({stats, categories});
+    setRows(rows);
     setError('');
   }
 
@@ -90,6 +93,12 @@ export default function UploadDataset() {
             ))}
           </ul>
           <p>Example CSV: <a href="/site/example-aqi.csv" target="_blank" rel="noreferrer">Download</a></p>
+        </div>
+      )}
+      {rows && rows.length>0 && (
+        <div style={{marginTop: 12}}>
+          <h4>PM2.5 Time Series</h4>
+          <DatasetChart data={rows.map(r=>({timestamp: r.timestamp || r.time || '', pm25: r.pm25 ?? r['PM2.5'] ?? r.pm2_5 }))} />
         </div>
       )}
     </div>
