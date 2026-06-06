@@ -26,7 +26,7 @@ const CityAQIDetails = props => {
     
     const getSpectrum = iaqi => {
         let ret = [];
-        Object.entries(iaqi).map(function(item) {
+        Object.entries(iaqi).forEach(function(item) {
             let obj = {};
             let key = names[item[0]] ? names[item[0]] : item[0];
             obj['key'] = key;
