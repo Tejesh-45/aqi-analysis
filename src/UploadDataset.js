@@ -18,26 +18,42 @@ export default function UploadDataset() {
   const [error, setError] = useState('');
 
   const analyze = rows => {
-    // Expect rows with fields: pm25 or PM2.5 or pm2_5
-    const values = rows.map(r => {
-      return r.pm25 ?? r['PM2.5'] ?? r.pm2_5 ?? r.pm2dot5 ?? '';
-    }).map(v => Number(v)).filter(n => !isNaN(n));
+    // Collect common pollutant columns if available
+    const pollutants = ['pm25','pm10','o3','no2','so2','co'];
+    const found = {};
+    pollutants.forEach(p => found[p] = []);
 
-    if (values.length === 0) {
+    rows.forEach(r => {
+      pollutants.forEach(p => {
+        const val = r[p] ?? r[p.toUpperCase()] ?? r.replace?.(".","_") ?? r[ p === 'pm25' ? 'PM2.5' : p ];
+        const n = Number(val);
+        if (!isNaN(n)) found[p].push(n);
+      });
+    });
+
+    // Prepare summary
+    const counts = Object.fromEntries(pollutants.map(p=>[p, found[p].length]));
+    if (counts.pm25 === 0) {
       setError('No PM2.5 values found in dataset. Include a `pm25` column.');
       setSummary(null);
       return;
     }
 
-    const avg = values.reduce((a,b)=>a+b,0)/values.length;
-    const max = Math.max(...values);
-    const categories = values.reduce((acc,v)=>{
+    const stats = {};
+    pollutants.forEach(p => {
+      if (found[p].length > 0) {
+        const avg = found[p].reduce((a,b)=>a+b,0)/found[p].length;
+        stats[p] = {count: found[p].length, avg: Number(avg.toFixed(2)), max: Math.max(...found[p])};
+      }
+    });
+
+    const categories = found.pm25.reduce((acc,v)=>{
       const c = pm25Category(v);
       acc[c] = (acc[c]||0)+1;
       return acc;
     },{});
 
-    setSummary({count: values.length, avg: avg.toFixed(2), max, categories});
+    setSummary({stats, categories});
     setError('');
   }
 
@@ -61,15 +77,19 @@ export default function UploadDataset() {
       {error && <div className="error">{error}</div>}
       {summary && (
         <div className="summary">
-          <p><b>Rows:</b> {summary.count}</p>
-          <p><b>Average PM2.5:</b> {summary.avg} µg/m³</p>
-          <p><b>Max PM2.5:</b> {summary.max} µg/m³</p>
-          <p><b>Category counts:</b></p>
+          <h3>Pollutant summary</h3>
+          <ul>
+            {Object.entries(summary.stats).map(([p,s])=> (
+              <li key={p}><b>{p}</b>: rows {s.count}, avg {s.avg} {p==='o3'||p==='no2'||p==='so2'||p==='co'? 'ppm':'µg/m³'}, max {s.max}</li>
+            ))}
+          </ul>
+          <h4>PM2.5 category counts</h4>
           <ul>
             {Object.entries(summary.categories).map(([k,v])=> (
               <li key={k}>{k}: {v}</li>
             ))}
           </ul>
+          <p>Example CSV: <a href="/site/example-aqi.csv" target="_blank" rel="noreferrer">Download</a></p>
         </div>
       )}
     </div>
