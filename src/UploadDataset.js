@@ -27,7 +27,17 @@ export default function UploadDataset() {
 
     rows.forEach(r => {
       pollutants.forEach(p => {
-        const val = r[p] ?? r[p.toUpperCase()] ?? r.replace?.(".","_") ?? r[ p === 'pm25' ? 'PM2.5' : p ];
+        let val;
+        if (r[p] !== undefined && r[p] !== '') {
+          val = r[p];
+        } else if (r[p.toUpperCase()] !== undefined) {
+          val = r[p.toUpperCase()];
+        } else if (p === 'pm25' && r['PM2.5'] !== undefined) {
+          val = r['PM2.5'];
+        } else {
+          val = r[p];
+        }
+
         const n = Number(val);
         if (!isNaN(n)) found[p].push(n);
       });
