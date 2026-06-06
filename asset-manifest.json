@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/aqi-analysis/static/css/main.78d5190a.chunk.css",
+    "main.js": "/aqi-analysis/static/js/main.58657cae.chunk.js",
+    "main.js.map": "/aqi-analysis/static/js/main.58657cae.chunk.js.map",
+    "runtime-main.js": "/aqi-analysis/static/js/runtime-main.61065e4a.js",
+    "runtime-main.js.map": "/aqi-analysis/static/js/runtime-main.61065e4a.js.map",
+    "static/js/2.d7fb9814.chunk.js": "/aqi-analysis/static/js/2.d7fb9814.chunk.js",
+    "static/js/2.d7fb9814.chunk.js.map": "/aqi-analysis/static/js/2.d7fb9814.chunk.js.map",
+    "index.html": "/aqi-analysis/index.html",
+    "precache-manifest.a03d1b921159a3a3def561fd42b31c71.js": "/aqi-analysis/precache-manifest.a03d1b921159a3a3def561fd42b31c71.js",
+    "service-worker.js": "/aqi-analysis/service-worker.js",
+    "static/css/main.78d5190a.chunk.css.map": "/aqi-analysis/static/css/main.78d5190a.chunk.css.map",
+    "static/media/index.css": "/aqi-analysis/static/media/search-icon.17610ce7.bin"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.61065e4a.js",
+    "static/js/2.d7fb9814.chunk.js",
+    "static/css/main.78d5190a.chunk.css",
+    "static/js/main.58657cae.chunk.js"
+  ]
+}
